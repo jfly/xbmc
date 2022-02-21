@@ -31,9 +31,9 @@ uniform sampler2D kernelTex;
 vec4 weight(float pos)
 {
 #if defined(HAS_FLOAT_TEXTURE)
-  return texture2D(kernelTex, vec2(pos - 0.5));
+  return texture2D(kernelTex, vec2(pos, 0.5));
 #else
-  return texture2D(kernelTex, vec2(pos - 0.5)) * 2.0 - 1.0;
+  return texture2D(kernelTex, vec2(pos, 0.5)) * 2.0 - 1.0;
 #endif
 }
 
