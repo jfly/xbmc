@@ -6,6 +6,7 @@
  *  See LICENSES/README.md for more information.
  */
 
+#include "CompileInfo.h"
 #include "FileUtils.h"
 #include "ServiceBroker.h"
 #include "guilib/GUIKeyboardFactory.h"
@@ -261,11 +262,14 @@ bool CFileUtils::CheckFileAccessAllowed(const std::string &filePath)
     "/.ssh/",
   };
   // ALLOW kodi paths
-  const std::vector<std::string> whitelist = {
+  std::vector<std::string> whitelist = {
     CSpecialProtocol::TranslatePath("special://home"),
     CSpecialProtocol::TranslatePath("special://xbmc"),
     CSpecialProtocol::TranslatePath("special://musicartistsinfo")
   };
+
+  auto kodiExtraWhitelist = CCompileInfo::GetWebserverExtraWhitelist();
+  whitelist.insert(whitelist.end(), kodiExtraWhitelist.begin(), kodiExtraWhitelist.end());
 
   // image urls come in the form of image://... sometimes with a / appended at the end
   // and can be embedded in a music or video file image://music@...
